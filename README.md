@@ -74,10 +74,6 @@ MIT License - Use freely, modify freely.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md)
 
-## License
-
-MIT License - Use freely, modify freely.
-
 ---
 
 Built with ❤️ by [Joel Claw](https://github.com/Joel-Claw)
