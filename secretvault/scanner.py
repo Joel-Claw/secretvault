@@ -8,9 +8,7 @@ from .patterns import COMMON_PATTERNS
 
 
 def scan_for_secrets(
-    text: str,
-    patterns: Optional[Dict[str, re.Pattern]] = None,
-    include_pii: bool = True
+    text: str, patterns: Optional[Dict[str, re.Pattern]] = None, include_pii: bool = True
 ) -> List[Tuple[str, str, int, int]]:
     """
     Scan text for potential secrets.
@@ -28,7 +26,7 @@ def scan_for_secrets(
 
     for name, pattern in patterns.items():
         # Skip PII patterns if not included
-        if not include_pii and name in ('email', 'phone', 'credit_card'):
+        if not include_pii and name in ("email", "phone", "credit_card"):
             continue
 
         for match in pattern.finditer(text):
@@ -42,7 +40,7 @@ def redact_secrets(
     patterns: Optional[Dict[str, re.Pattern]] = None,
     replacement: str = "[REDACTED:{name}]",
     include_pii: bool = True,
-    known_secrets: Optional[Dict[str, str]] = None
+    known_secrets: Optional[Dict[str, str]] = None,
 ) -> str:
     """
     Redact secrets from text.
@@ -67,20 +65,23 @@ def redact_secrets(
 
     # Then, redact by pattern matching
     for name, pattern in patterns.items():
-        if not include_pii and name in ('email', 'phone', 'credit_card'):
+        if not include_pii and name in ("email", "phone", "credit_card"):
             continue
 
-        def replacer(m):
-            return replacement.format(name=name)
-        text = pattern.sub(replacer, text)
+        # Create closure to capture name
+        def make_replacer(pattern_name):
+            def replacer(m):
+                return replacement.format(name=pattern_name)
+
+            return replacer
+
+        text = pattern.sub(make_replacer(name), text)
 
     return text
 
 
 def scan_file(
-    file_path: str,
-    patterns: Optional[Dict[str, re.Pattern]] = None,
-    include_pii: bool = True
+    file_path: str, patterns: Optional[Dict[str, re.Pattern]] = None, include_pii: bool = True
 ) -> List[Tuple[str, str, int, int]]:
     """
     Scan a file for secrets.
@@ -93,7 +94,7 @@ def scan_file(
     Returns:
         List of (pattern_name, matched_value, line_number, column)
     """
-    with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+    with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
         lines = f.readlines()
 
     results = []
@@ -109,7 +110,7 @@ def redact_file(
     input_path: str,
     output_path: str,
     patterns: Optional[Dict[str, re.Pattern]] = None,
-    include_pii: bool = True
+    include_pii: bool = True,
 ) -> int:
     """
     Redact secrets from a file.
@@ -123,16 +124,16 @@ def redact_file(
     Returns:
         Number of secrets redacted
     """
-    with open(input_path, 'r', encoding='utf-8', errors='ignore') as f:
+    with open(input_path, "r", encoding="utf-8", errors="ignore") as f:
         content = f.read()
 
     redacted = redact_secrets(content, patterns, include_pii=include_pii)
 
-    with open(output_path, 'w', encoding='utf-8') as f:
+    with open(output_path, "w", encoding="utf-8") as f:
         f.write(redacted)
 
     # Count redactions
-    return content.count('[REDACTED:')
+    return content.count("[REDACTED:")
 
 
 def is_safe_to_share(text: str, patterns: Optional[Dict[str, re.Pattern]] = None) -> bool:

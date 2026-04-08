@@ -2,19 +2,19 @@
 Encrypted local storage for secrets
 """
 
-import os
-import json
-import hashlib
-from pathlib import Path
-from typing import Optional, Dict, Any
-from datetime import datetime, timezone
 import base64
+import json
+import os
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any, Dict, Optional
 
 # Cryptography is optional for core functionality
 try:
     from cryptography.fernet import Fernet
     from cryptography.hazmat.primitives import hashes
     from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+
     CRYPTO_AVAILABLE = True
 except ImportError:
     CRYPTO_AVAILABLE = False
@@ -32,10 +32,7 @@ class Vault:
     """
 
     def __init__(
-        self,
-        path: Optional[Path] = None,
-        password: Optional[str] = None,
-        auto_encrypt: bool = True
+        self, path: Optional[Path] = None, password: Optional[str] = None, auto_encrypt: bool = True
     ):
         """
         Initialize the vault.
@@ -79,7 +76,7 @@ class Vault:
         kdf = PBKDF2HMAC(
             algorithm=hashes.SHA256(),
             length=32,
-            salt=b'secretvault_salt',  # Static salt for simplicity
+            salt=b"secretvault_salt",  # Static salt for simplicity
             iterations=100000,
         )
         return base64.urlsafe_b64encode(kdf.derive(password.encode()))
@@ -116,19 +113,23 @@ class Vault:
         """Save vault to disk."""
         data = {
             "version": "0.1.0",
-            "secrets": self._encrypt(json.dumps(self._secrets)) if self.auto_encrypt else self._secrets,
-            "audit_log": self._audit_log[-100:]  # Keep last 100 entries
+            "secrets": (
+                self._encrypt(json.dumps(self._secrets)) if self.auto_encrypt else self._secrets
+            ),
+            "audit_log": self._audit_log[-100:],  # Keep last 100 entries
         }
         self.path.write_text(json.dumps(data, indent=2))
         self.path.chmod(0o600)
 
     def _audit(self, action: str, key: str) -> None:
         """Log an audit entry."""
-        self._audit_log.append({
-            "timestamp": datetime.now(timezone.utc).isoformat(),
-            "action": action,
-            "key": key,
-        })
+        self._audit_log.append(
+            {
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "action": action,
+                "key": key,
+            }
+        )
 
     def set(self, key: str, value: str, metadata: Optional[Dict] = None) -> None:
         """

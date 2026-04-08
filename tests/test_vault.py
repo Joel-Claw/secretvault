@@ -90,9 +90,6 @@ class TestScanner:
     def test_known_secrets_redaction(self):
         """Test redacting known secrets by value."""
         text = "Use the key MY_SECRET_KEY_12345 for authentication"
-        redacted = redact_secrets(
-            text,
-            known_secrets={"my_key": "MY_SECRET_KEY_12345"}
-        )
+        redacted = redact_secrets(text, known_secrets={"my_key": "MY_SECRET_KEY_12345"})
         assert "MY_SECRET_KEY_12345" not in redacted
         assert "[REDACTED:my_key]" in redacted

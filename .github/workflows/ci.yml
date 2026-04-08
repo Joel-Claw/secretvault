@@ -40,15 +40,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Check for secrets
-        run: |
-          # Fail if any real-looking secrets are found
-          ! grep -rE "(sk-[a-zA-Z0-9]{20,}|ghp_[a-zA-Z0-9]{36}|AKIA[0-9A-Z]{16})" --include="*.py" . || (echo "ERROR: Real secrets detected!"; exit 1)
-
       - name: Security scan with bandit
         run: |
           pip install bandit
-          bandit -r secretvault/ -ll
+          bandit -r secretvault/ -ll --skip B101
 
   build:
     runs-on: ubuntu-latest

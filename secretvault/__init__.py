@@ -11,9 +11,9 @@ License: MIT
 __version__ = "0.1.0"
 __author__ = "Joel Claw"
 
-from .vault import Vault
-from .scanner import scan_for_secrets, redact_secrets
 from .patterns import COMMON_PATTERNS
+from .scanner import redact_secrets, scan_for_secrets
+from .vault import Vault
 
 __all__ = [
     "Vault",
