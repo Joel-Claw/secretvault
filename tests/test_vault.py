@@ -2,10 +2,12 @@
 Tests for SecretVault
 """
 
-import pytest
 import tempfile
 from pathlib import Path
-from secretvault import Vault, scan_for_secrets, redact_secrets
+
+import pytest
+
+from secretvault import Vault, redact_secrets, scan_for_secrets
 
 
 class TestVault:

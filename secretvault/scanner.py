@@ -3,7 +3,8 @@ Secret scanning and redaction
 """
 
 import re
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, List, Optional, Tuple
+
 from .patterns import COMMON_PATTERNS
 
 
@@ -94,13 +95,13 @@ def scan_file(
     Returns:
         List of (pattern_name, matched_value, line_number, column)
     """
-    with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+    with open(file_path, encoding="utf-8", errors="ignore") as f:
         lines = f.readlines()
 
     results = []
     for line_num, line in enumerate(lines, 1):
         matches = scan_for_secrets(line, patterns, include_pii)
-        for name, value, start, end in matches:
+        for name, value, start, _end in matches:
             results.append((name, value, line_num, start))
 
     return results
@@ -124,7 +125,7 @@ def redact_file(
     Returns:
         Number of secrets redacted
     """
-    with open(input_path, "r", encoding="utf-8", errors="ignore") as f:
+    with open(input_path, encoding="utf-8", errors="ignore") as f:
         content = f.read()
 
     redacted = redact_secrets(content, patterns, include_pii=include_pii)
