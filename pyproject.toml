@@ -32,6 +32,9 @@ dependencies = []
 crypto = ["cryptography>=41.0"]
 dev = ["pytest>=7.0", "pytest-cov>=4.0", "black>=23.0", "ruff>=0.1.0"]
 
+[project.scripts]
+secretvault = "secretvault.cli:main"
+
 [project.urls]
 Homepage = "https://github.com/Joel-Claw/secretvault"
 Documentation = "https://github.com/Joel-Claw/secretvault#readme"
