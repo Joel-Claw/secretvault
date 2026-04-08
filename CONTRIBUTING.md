@@ -2,14 +2,6 @@
 
 Thank you for your interest in contributing! 🎉
 
-## 🚨 Security First
-
-**NEVER commit real secrets, API keys, passwords, or private information.**
-
-- All example keys in code must be obviously fake
-- Use patterns like `sk-fake...`, `ghp_example...`, `YOUR_KEY_HERE`
-- If you accidentally commit a real secret, change it immediately
-
 ## Development Setup
 
 ```bash
@@ -46,15 +38,6 @@ black --check secretvault/
 - Use **Ruff** for linting
 - Write docstrings for all public functions
 - Add tests for new functionality
-
-## Reporting Issues
-
-Found a bug? Have a suggestion?
-
-1. Check existing issues first
-2. Use a clear title and description
-3. Include steps to reproduce (for bugs)
-4. Never include real secrets in issue reports
 
 ## License
 

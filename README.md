@@ -74,9 +74,9 @@ MIT License - Use freely, modify freely.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md)
 
-## Disclaimer
+## License
 
-**Never use real secrets as examples.** All examples in this project use fake/example values.
+MIT License - Use freely, modify freely.
 
 ---
 
