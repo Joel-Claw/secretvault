@@ -7,7 +7,7 @@ import json
 import hashlib
 from pathlib import Path
 from typing import Optional, Dict, Any
-from datetime import datetime
+from datetime import datetime, timezone
 import base64
 
 # Cryptography is optional for core functionality
@@ -125,7 +125,7 @@ class Vault:
     def _audit(self, action: str, key: str) -> None:
         """Log an audit entry."""
         self._audit_log.append({
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "action": action,
             "key": key,
         })
@@ -141,7 +141,7 @@ class Vault:
         """
         self._secrets[key] = {
             "value": value,
-            "created": datetime.utcnow().isoformat(),
+            "created": datetime.now(timezone.utc).isoformat(),
             "metadata": metadata or {},
         }
         self._audit("SET", key)

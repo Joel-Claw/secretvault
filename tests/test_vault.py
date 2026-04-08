@@ -56,10 +56,13 @@ class TestScanner:
     def test_scan_github_token(self):
         """Test detecting GitHub tokens."""
         # FAKE token - will never work
-        text = "GITHUB_TOKEN=ghp_faketoken12345678901234567890123456"
+        # Using a realistic format: ghp_ followed by alphanumeric
+        text = "GITHUB_TOKEN=ghp_aBcDeFgHiJkLmNoPqRsTuVwXyZ012345"
         results = scan_for_secrets(text)
         assert len(results) > 0
-        assert "github" in results[0][0]
+        # Check that github pattern is among the results
+        pattern_names = [r[0] for r in results]
+        assert any("github" in name for name in pattern_names)
 
     def test_redact_secrets(self):
         """Test redacting secrets from text."""

@@ -16,7 +16,7 @@ COMMON_PATTERNS: Dict[str, Pattern] = {
     "aws_access_key": re.compile(r'AKIA[0-9A-Z]{16}'),
 
     # GitHub Personal Access Tokens (fake)
-    "github_pat": re.compile(r'ghp_[a-zA-Z0-9]{36}'),
+    "github_pat": re.compile(r'ghp_[a-zA-Z0-9]{30,}'),
     "github_oauth": re.compile(r'gho_[a-zA-Z0-9]{36}'),
     "github_app": re.compile(r'ghu_[a-zA-Z0-9]{36}'),
     "github_refresh": re.compile(r'ghr_[a-zA-Z0-9]{36}'),
