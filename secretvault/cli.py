@@ -13,17 +13,11 @@ from .scanner import scan_file, scan_for_secrets
 
 def main():
     """Main CLI entry point."""
-    parser = argparse.ArgumentParser(
-        description="Scan files or text for potential secrets"
-    )
+    parser = argparse.ArgumentParser(description="Scan files or text for potential secrets")
     parser.add_argument("path", nargs="?", help="File or directory to scan")
     parser.add_argument("--text", "-t", help="Scan text from command line")
-    parser.add_argument(
-        "--no-pii", action="store_true", help="Skip PII detection (email, phone)"
-    )
-    parser.add_argument(
-        "--json", "-j", action="store_true", help="Output as JSON"
-    )
+    parser.add_argument("--no-pii", action="store_true", help="Skip PII detection (email, phone)")
+    parser.add_argument("--json", "-j", action="store_true", help="Output as JSON")
 
     args = parser.parse_args()
 
