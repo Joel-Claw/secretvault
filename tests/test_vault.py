@@ -5,8 +5,6 @@ Tests for SecretVault
 import tempfile
 from pathlib import Path
 
-import pytest
-
 from secretvault import Vault, redact_secrets, scan_for_secrets
 
 
