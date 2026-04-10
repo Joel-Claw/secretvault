@@ -28,7 +28,7 @@ def main():
         results = scan_for_secrets(args.text, include_pii=include_pii)
         if results:
             print(f"Found {len(results)} potential secrets:")
-            for name, value, start, end in results:
+            for name, value, start, _end in results:
                 print(f"  [{name}] {value[:20]}{'...' if len(value) > 20 else ''} (pos {start})")
             sys.exit(1)
         else:
@@ -67,7 +67,7 @@ def main():
 
             if all_results:
                 print(f"Found {len(all_results)} potential secrets in {path}:")
-                for file_path, name, value, line, col in all_results:
+                for file_path, name, _value, line, _col in all_results:
                     print(f"  {file_path}: [{name}] (line {line})")
                 sys.exit(1)
             else:
